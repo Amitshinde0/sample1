@@ -1,0 +1,619 @@
+
+GOTO DEFAULT
+
+BUILDWINDOW:
+
+myAPI!=BBjAPI()
+
+
+SYSGUI=UNT
+OPEN (SYSGUI) "X0"
+
+
+
+ mySysGui!=myAPI!.getSysGui()
+
+
+X=10
+Y=10
+WIDTH=500
+HEIGHT=500
+TITLE$="tik-tak-toe"
+
+FL = 0
+
+
+mySysGui!.setContext(1)
+
+
+MyWindow! = mySysGui!.addWindow(X,Y,WIDTH,HEIGHT,TITLE$)
+Text!=MyWindow!.addStaticText(901,500,80,70,500,"Player 1's Turn")
+
+
+btn1! = MyWindow!.addButton(100,100,100,100,100,"")
+btn2! = MyWindow!.addButton(200,200,100,100,100,"")
+btn3! = MyWindow!.addButton(300,300,100,100,100,"")
+btn4! = MyWindow!.addButton(400,100,200,100,100,"")
+btn5! = MyWindow!.addButton(500,200,200,100,100,"")
+btn6! = MyWindow!.addButton(600,300,200,100,100,"")
+btn7! = MyWindow!.addButton(700,100,300,100,100,"")
+btn8! = MyWindow!.addButton(800,200,300,100,100,"")
+btn9! = MyWindow!.addButton(900,300,300,100,100,"")
+
+RETURN
+
+READRECORDSTYLE:
+MyWindow!.setTitle("tik-tak-toe")
+
+PROCESSEVENTSSTYLE:
+
+GOSUB BUILDWINDOW
+MyWindow!.setTitle("Using PROCESS_EVENTS")
+
+CALLBACK(ON_BUTTON_PUSH,MY_ONE_BUTTON_PUSHED, mySysGui!.getContext(),btn1!.getID())
+btn1!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH, MY_TWO_BUTTON_PUSHED,mySysGui!.getContext(),btn2!.getID())
+btn2!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,MY_THREE_BUTTON_PUSHED,mySysGui!.getContext(),btn3!.getID())
+btn3!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_Four_BUTTON_PUSHED,mySysGui!.getContext(),btn4!.getID())
+btn4!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_Five_BUTTON_PUSHED,mySysGui!.getContext(),btn5!.getID())
+btn5!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_Six_BUTTON_PUSHED,mySysGui!.getContext(),btn6!.getID())
+btn6!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_Seven_BUTTON_PUSHED,mySysGui!.getContext(),btn7!.getID())
+btn7!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_EIGHT_BUTTON_PUSHED,mySysGui!.getContext(),btn8!.getID())
+btn8!.setDisableOnClick(1)
+CALLBACK(ON_BUTTON_PUSH,my_NINE_BUTTON_PUSHED,mySysGui!.getContext(),btn9!.getID())
+btn9!.setDisableOnClick(1)
+CALLBACK(ON_CLOSE,APP_CLOSE,mySysGui!.getContext())
+
+
+PROCESS_EVENTS
+
+
+APP_CLOSE:
+MyWindow!.destroy()
+RELEASE
+RETURN
+
+rem __________________________________btn1_______________________________________
+
+
+MY_ONE_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		btn1!.setText("X")
+		chance=chance+1
+		q = 2
+		Text2!=MyWindow!.addStaticText(301,500,80,70,500,"Player"+str(q)+" sTurn")
+		b1$ = btn1!.getText()
+
+		IF b1$ = b2$ AND b2$ = b3$ AND b1$ = b3$ then
+			Text23! = MyWindow!.addStaticText(501, 500,200, 100, 50, "Player 1 is Winner")
+			btn1!.setBackColor(BBjColor.GREEN)
+			btn2!.setBackColor(BBjColor.GREEN)
+			btn3!.setBackColor(BBjColor.GREEN)
+			
+		endif
+		IF b1$ = b5$ AND b5$ = b9$ AND b1$ = b9$ then
+ 	    	Text23! = MyWindow!.addStaticText(502, 500,200, 100, 50, "Player 1 is Winner")
+ 	    	btn1!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+ 	    endif
+ 	    
+ 	    IF b1$=b4$ and b4$=b7$ and b1$=b7$ then
+ 	    	Text23! = MyWindow!.addStaticText(503, 500,200, 100, 50, "Player 1 is Winner")
+ 	    	btn1!.setBackColor(BBjColor.GREEN)
+			btn4!.setBackColor(BBjColor.GREEN)
+			btn7!.setBackColor(BBjColor.GREEN)
+ 	    endif
+ 	    FL=1
+ 	else
+
+		btn1!.setText("O")
+	
+		chance=chance+1
+		q =1
+		Text3!=MyWindow!.addStaticText(302,500,80,70,500,"player"+str(q)+" sTurn")
+		b1$ = btn1!.getText()
+
+		IF b1$ = b2$ AND b2$ = b3$ AND b1$ = b3$ then
+			 Text23! = MyWindow!.addStaticText(504, 500,200, 100, 50, "Player 2 is Winner")
+			btn1!.setBackColor(BBjColor.RED)
+			btn2!.setBackColor(BBjColor.RED)
+			btn3!.setBackColor(BBjColor.RED)
+		endif
+		IF b1$ = b5$ AND b5$ = b9$ AND b1$ = b9$ then
+			 Text23! = MyWindow!.addStaticText(505, 500,200, 100, 50, "Player 2 is Winner")
+			btn1!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn9!.setBackColor(BBjColor.RED)
+		endif
+		IF b1$=b4$ and b4$=b7$ and b1$=b7$ then
+           Text23! = MyWindow!.addStaticText(506, 500,200, 100, 50, "Player 2 is Winner")
+           btn1!.setBackColor(BBjColor.RED)
+		   btn4!.setBackColor(BBjColor.RED)
+		   btn7!.setBackColor(BBjColor.RED)
+        endif
+		FL=0	
+	fi
+	RETURN
+ 
+ rem __________________________________btn2_______________________________________
+ 
+MY_TWO_BUTTON_PUSHED:
+FL=MOD(chance,2)
+ 	if FL = 0 THEN
+
+ 		btn2!.setText("X")
+ 		
+ 		chance=chance+1
+		q = 2
+		Text4!=MyWindow!.addStaticText(303,500,80,70,500,"player"+str(q)+" sTurn")
+ 		b2$ = btn2!.getText()
+		IF b1$ = b2$ AND b2$ = b3$ AND b1$ = b3$ then
+			 Text23! = MyWindow!.addStaticText(507, 500,200, 100, 50, "Player 1 is Winner")
+			btn1!.setBackColor(BBjColor.GREEN)
+			btn2!.setBackColor(BBjColor.GREEN)
+			btn3!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b2$ = b5$ AND b5$ = b8$ AND b2$ = b8$ then
+			Text23! = MyWindow!.addStaticText(508, 500,200, 100, 50, "Player 1 is Winner")
+			btn2!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+		endif
+		FL=1	
+	else
+
+		btn2!.setText("O")
+		
+		chance=chance+1
+		q = 1
+		Text5! = MyWindow!.addStaticText(304, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b2$ = btn2!.getText()
+		
+		IF b2$ = b1$ AND b2$ = b3$ AND b1$ = b3$ then
+			Text23! = MyWindow!.addStaticText(509, 500,200, 100, 50, "Player 2 is Winner")
+			btn1!.setBackColor(BBjColor.RED)
+			btn2!.setBackColor(BBjColor.RED)
+			btn3!.setBackColor(BBjColor.RED)
+		endif
+		IF b2$ = b5$ AND b5$ = b8$ AND b2$ = b8$ then
+			Text23! = MyWindow!.addStaticText(510, 500,200, 100, 50, "Player 2 is Winner")
+			btn2!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn8!.setBackColor(BBjColor.RED)
+		endif
+		FL=0
+	fi
+
+RETURN
+
+rem __________________________________btn3_______________________________________
+
+
+MY_THREE_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+
+		btn3!.setText("X")
+	
+		chance=chance+1
+		q = 2
+		Text6! = MyWindow!.addStaticText(305, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b3$ = btn3!.getText()
+		
+		IF b3$ = b2$ AND b2$ = b1$ AND b3$ = b1$ then
+			Text23! = MyWindow!.addStaticText(511, 500,200, 100, 50, "Player 1 is Winner")
+			btn3!.setBackColor(BBjColor.GREEN)
+			btn2!.setBackColor(BBjColor.GREEN)
+			btn1!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b3$ = b6$ AND b6$ = b9$ AND b3$ = b9$ then
+			Text23! = MyWindow!.addStaticText(512, 500,200, 100, 50, "Player 1 is Winner")
+			btn3!.setBackColor(BBjColor.GREEN)
+			btn6!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+			endif
+		IF b3$ = b5$ AND b5$ = b7$ AND b3$ = b7$ then
+			Text23! = MyWindow!.addStaticText(513, 500,200, 100, 50, "Player 1 is Winner")
+			btn3!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn7!.setBackColor(BBjColor.GREEN)
+			endif
+	   FL=1		
+	else
+
+	 	 btn3!.setText("O")
+	 	 chance=chance+1
+	 	q = 1
+	  	Text7! = MyWindow!.addStaticText(306, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b3$ = btn3!.getText()
+		
+		IF b3$ = b2$ AND b2$ = b1$ AND b3$ = b1$ then
+			Text23! = MyWindow!.addStaticText(514, 500,200, 100, 50, "Player 2 is Winner")
+			btn3!.setBackColor(BBjColor.RED)
+			btn2!.setBackColor(BBjColor.RED)
+			btn1!.setBackColor(BBjColor.RED)
+		endif
+		IF b3$ = b6$ AND b6$ = b9$ AND b3$ = b9$ then
+			Text23! = MyWindow!.addStaticText(515, 500,200, 100, 50, "Player 2 is Winner")
+			btn3!.setBackColor(BBjColor.RED)
+			btn6!.setBackColor(BBjColor.RED)
+			btn9!.setBackColor(BBjColor.RED)
+			endif
+		IF b3$ = b5$ AND b5$ = b7$ AND b3$ = b7$ then
+			Text23! = MyWindow!.addStaticText(516, 500,200, 100, 50, "Player 2 is Winner")
+			btn3!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn7!.setBackColor(BBjColor.RED)
+			endif
+		FL=0
+    fi
+
+    RETURN
+
+rem __________________________________btn4_______________________________________
+
+MY_Four_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+
+		btn4!.setText("X")
+	
+		chance=chance+1
+		q = 2
+		Text8! = MyWindow!.addStaticText(307, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b4$ = btn4!.getText()
+		
+		IF b4$ = b1$ AND b4$ = b7$ AND b1$ = b7$ then
+			Text23! = MyWindow!.addStaticText(517, 500,200, 100, 50, "Player 1 is Winner")
+			btn4!.setBackColor(BBjColor.GREEN)
+			btn1!.setBackColor(BBjColor.GREEN)
+			btn7!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b4$ = b5$ AND b5$ = b6$ AND b4$ = b6$ then
+			Text23! = MyWindow!.addStaticText(518, 500,200, 100, 50, "Player 1 is Winner")
+			btn4!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn6!.setBackColor(BBjColor.GREEN)
+			endif
+	   FL=1		
+	else
+ 
+		btn4!.setText("O")
+		chance=chance+1
+		q = 1
+		Text9! = MyWindow!.addStaticText(308, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b4$ = btn4!.getText()
+		
+		IF b4$ = b1$ AND b4$ = b7$ AND b1$ = b7$ then
+			Text23! = MyWindow!.addStaticText(519, 500,200, 100, 50, "Player 2 is Winner")
+			btn4!.setBackColor(BBjColor.RED)
+			btn1!.setBackColor(BBjColor.RED)
+			btn7!.setBackColor(BBjColor.RED)
+		endif
+		IF b4$ = b5$ AND b5$ = b6$ AND b4$ = b6$ then
+			Text23! = MyWindow!.addStaticText(520, 500,200, 100, 50, "Player 2 is Winner")
+			btn4!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn6!.setBackColor(BBjColor.RED)
+		endif
+		FL=0
+	fi
+ RETURN
+
+rem __________________________________btn5_______________________________________
+
+MY_Five_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+
+		btn5!.setText("X")	
+		chance=chance+1
+		q = 2
+		Text10! = MyWindow!.addStaticText(309, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b5$ = btn5!.getText()
+		
+		IF b4$ = b5$ AND b5$ = b6$ AND b4$ = b6$ then
+			Text23! = MyWindow!.addStaticText(521, 500,200, 100, 50, "Player 1 is Winner")
+			btn4!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn6!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b2$ = b5$ AND b5$ = b8$ AND b2$ = b8$ then
+			Text23! = MyWindow!.addStaticText(522, 500,200, 100, 50, "Player 1 is Winner")
+			btn2!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+			endif
+		IF b1$=b5$ AND b5$=b9$ AND b1$=b9$ then
+		  Text23! = MyWindow!.addStaticText(523, 500,200, 100, 50, "Player 1 is Winner")
+		    btn1!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b3$=b5$ AND b5$=b7$ AND b3$=b7$ then 
+		  Text23! = MyWindow!.addStaticText(524, 500,200, 100, 50, "Player 1 is Winner")
+		    btn3!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn7!.setBackColor(BBjColor.GREEN)
+		endif
+		FL=1
+   else
+
+		btn5!.setText("O")
+	
+		chance=chance+1
+		q = 1
+		Text11! = MyWindow!.addStaticText(310, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b5$ = btn5!.getText()
+		
+		IF b4$ = b5$ AND b5$ = b6$ AND b4$ = b6$ then
+			Text23! = MyWindow!.addStaticText(521, 500,200, 100, 50, "Player 2 is Winner")
+			btn4!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn6!.setBackColor(BBjColor.RED)
+		endif
+		IF b2$ = b5$ AND b5$ = b8$ AND b2$ = b8$ then
+			Text23! = MyWindow!.addStaticText(522, 500,200, 100, 50, "Player 2 is Winner")
+			btn2!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn8!.setBackColor(BBjColor.RED)
+			endif
+		IF b1$=b5$ AND b5$=b9$ AND b1$=b9$ then
+		  Text23! = MyWindow!.addStaticText(523, 500,200, 100, 50, "Player 2 is Winner")
+		    btn1!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn9!.setBackColor(BBjColor.RED)
+		endif
+		IF b3$=b5$ AND b5$=b7$ AND b3$=b7$ then 
+		  Text23! = MyWindow!.addStaticText(524, 500,200, 100, 50, "Player 2 is Winner")
+		    btn3!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn7!.setBackColor(BBjColor.RED)
+		endif
+		FL=0
+   fi
+
+RETURN
+
+rem __________________________________btn6_______________________________________
+
+MY_Six_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		btn6!.setText("X")
+		chance=chance+1
+		q = 2
+		Text12! = MyWindow!.addStaticText(311, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b6$ = btn6!.getText()
+		
+		IF b3$ = b6$ AND b6$ = b9$ AND b3$ = b9$ then
+			Text23! = MyWindow!.addStaticText(529, 500,200, 100, 50, "Player 1 is Winner")
+			btn3!.setBackColor(BBjColor.GREEN)
+			btn6!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b6$ = b5$ AND b5$ = b4$ AND b6$ = b4$ then
+			Text23! = MyWindow!.addStaticText(530, 500,200, 100, 50, "Player 1 is Winner")
+			btn6!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn4!.setBackColor(BBjColor.GREEN)
+	    endif
+	    FL=1 
+	else
+
+		btn6!.setText("O")
+		chance=chance+1
+		q = 1
+		Text13! = MyWindow!.addStaticText(312, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b6$ = btn6!.getText()
+		
+		IF b3$ = b6$ AND b6$ = b9$ AND b3$ = b9$ then
+			Text23! = MyWindow!.addStaticText(531, 500,200, 100, 50, "Player 2 is Winner")
+			btn3!.setBackColor(BBjColor.RED)
+			btn6!.setBackColor(BBjColor.RED)
+			btn9!.setBackColor(BBjColor.RED)
+		endif
+		IF b6$ = b5$ AND b5$ = b4$ AND b6$ = b4$ then
+			Text23! = MyWindow!.addStaticText(532, 500,200, 100, 50, "Player 2 is Winner")
+			btn6!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn4!.setBackColor(BBjColor.RED)
+	    endif
+	    FL=0
+  fi
+
+RETURN
+
+rem __________________________________btn7_______________________________________
+
+MY_Seven_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+		btn7!.setText("X")
+		chance=chance+1
+		q = 2
+		Text14! = MyWindow!.addStaticText(313, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b7$ = btn7!.getText()
+		
+		IF b7$ = b4$ AND b4$ = b1$ AND b1$ = b7$ then
+			Text23! = MyWindow!.addStaticText(533, 500,200, 100, 50, "Player 1 is Winner")
+			btn7!.setBackColor(BBjColor.GREEN)
+			btn4!.setBackColor(BBjColor.GREEN)
+			btn1!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b7$ = b5$ AND b5$ = b3$ AND b7$ = b3$ then
+			Text23! = MyWindow!.addStaticText(534, 500,200, 100, 50, "Player 1 is Winner")
+			btn7!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn3!.setBackColor(BBjColor.GREEN)
+	    endif
+		IF b7$ = b8$ AND b8$ = b9$ AND b7$ = b9$ then
+		  Text23! = MyWindow!.addStaticText(535, 500,200, 100, 50, "Player 1 is Winner")
+		    btn7!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+		endif
+		FL=1
+  else
+
+		btn7!.setText("O")
+	
+		chance=chance+1
+		q = 1
+		Text15! = MyWindow!.addStaticText(314, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b7$ = btn7!.getText()
+		
+		IF b7$ = b4$ AND b4$ = b1$ AND b1$ = b7$ then
+			Text23! = MyWindow!.addStaticText(533, 500,200, 100, 50, "Player 2 is Winner")
+			btn7!.setBackColor(BBjColor.RED)
+			btn4!.setBackColor(BBjColor.RED)
+			btn1!.setBackColor(BBjColor.RED)
+		endif
+		IF b7$ = b5$ AND b5$ = b3$ AND b7$ = b3$ then
+			Text23! = MyWindow!.addStaticText(534, 500,200, 100, 50, "Player 2 is Winner")
+			btn7!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn3!.setBackColor(BBjColor.RED)
+	    endif
+		IF b7$ = b8$ AND b8$ = b9$ AND b7$ = b9$ then
+		  Text23! = MyWindow!.addStaticText(535, 500,200, 100, 50, "Player 2 is Winner")
+		    btn7!.setBackColor(BBjColor.RED)
+			btn8!.setBackColor(BBjColor.RED)
+			btn9!.setBackColor(BBjColor.RED)
+		endif
+		FL=0
+  fi
+
+RETURN
+
+rem __________________________________btn8_______________________________________
+
+MY_EIGHT_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+
+		btn8!.setText("X")
+	
+		chance=chance+1
+		q = 2
+		Text16! = MyWindow!.addStaticText(315, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b8$ = btn8!.getText()
+		
+		IF b7$ = b8$ AND b8$ = b9$ AND b7$ = b9$ then
+			Text23! = MyWindow!.addStaticText(539, 500,200, 100, 50, "Player 1 is Winner")
+			btn7!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b8$ = b5$ AND b5$ = b2$ AND b8$ = b2$ then
+			Text23! = MyWindow!.addStaticText(540, 500,200, 100, 50, "Player 1 is Winner")
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn2!.setBackColor(BBjColor.GREEN)
+		endif
+		FL=1	
+  else
+
+		btn8!.setText("O")
+	
+		chance=chance+1
+		q = 1
+		Text17! = MyWindow!.addStaticText(316, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b8$ = btn8!.getText()
+		
+		IF b7$ = b8$ AND b8$ = b9$ AND b7$ = b9$ then
+			Text23! = MyWindow!.addStaticText(541, 500,200, 100, 50, "Player 2 is Winner")
+			btn7!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn9!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b8$ = b5$ AND b5$ = b2$ AND b8$ = b2$ then
+			Text23! = MyWindow!.addStaticText(542, 500,200, 100, 50, "Player 2 is Winner")
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn2!.setBackColor(BBjColor.GREEN)
+			endif
+		FL=0
+  fi
+
+RETURN
+
+rem __________________________________btn9_______________________________________
+
+MY_NINE_BUTTON_PUSHED:
+FL=MOD(chance,2)
+	if FL = 0 THEN
+
+		btn9!.setText("X")
+		chance=chance+1
+		q = 2
+		Text18! = MyWindow!.addStaticText(317, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b9$ = btn9!.getText()
+		
+		IF b9$ = b6$ AND b6$ = b3$ AND b9$ = b3$ then
+			Text23! = MyWindow!.addStaticText(543, 500,200, 100, 50, "Player 1 is Winner")
+			btn9!.setBackColor(BBjColor.GREEN)
+			btn6!.setBackColor(BBjColor.GREEN)
+			btn3!.setBackColor(BBjColor.GREEN)
+		endif
+		IF b9$ = b8$ AND b8$ = b7$ AND b9$ = b7$ then
+			Text23! = MyWindow!.addStaticText(544, 500,200, 100, 50, "Player 1 is Winner")
+			btn9!.setBackColor(BBjColor.GREEN)
+			btn8!.setBackColor(BBjColor.GREEN)
+			btn7!.setBackColor(BBjColor.GREEN)
+		 endif
+		IF b9$ = b5$ AND b5$ = b1$ AND b9$ = b1$ then
+			Text23! = MyWindow!.addStaticText(545, 500,200, 100, 50, "Player 1 is Winner")
+			btn9!.setBackColor(BBjColor.GREEN)
+			btn5!.setBackColor(BBjColor.GREEN)
+			btn1!.setBackColor(BBjColor.GREEN)
+		endif 
+		FL=1
+  else
+
+		btn9!.setText("O")
+	
+		chance=chance+1
+		q = 1
+		Text19! = MyWindow!.addStaticText(318, 500,80, 70, 500, "Player "+ str(q)+ " sTurn")
+		b9$ = btn9!.getText()
+		
+		IF b9$ = b6$ AND b6$ = b3$ AND b9$ = b3$ then
+			Text23! = MyWindow!.addStaticText(546, 500,200, 100, 50, "Player 2 is Winner")
+			btn9!.setBackColor(BBjColor.RED)
+			btn6!.setBackColor(BBjColor.RED)
+			btn3!.setBackColor(BBjColor.RED)
+		endif
+		IF b9$ = b8$ AND b8$ = b7$ AND b9$ = b7$ then
+			Text23! = MyWindow!.addStaticText(547, 500,200, 100, 50, "Player 2 is Winner")
+			btn9!.setBackColor(BBjColor.RED)
+			btn8!.setBackColor(BBjColor.RED)
+			btn7!.setBackColor(BBjColor.RED)
+		endif
+		IF b9$ = b5$ AND b5$ = b1$ AND b9$ = b1$ then
+			Text23! = MyWindow!.addStaticText(548, 500,200, 100, 50, "Player 2 is Winner")
+			btn9!.setBackColor(BBjColor.RED)
+			btn5!.setBackColor(BBjColor.RED)
+			btn1!.setBackColor(BBjColor.RED)
+		endif 	
+		FL=0
+  fi
+
+rem __________________________________btn End_______________________________________
+
+
+
+RETURN
+DEFAULT:
+ REM PRINT "This program is intended to called by MixedEventStyles.bbj"
+ REM PRINT "Call using labels READRECORDSTYLE or PROCESSEVENTSSTYLE"
+  REM PRINT "Running in PROCESS_EVENTS STYLE MODE"
+ GOTO PROCESSEVENTSSTYLE
